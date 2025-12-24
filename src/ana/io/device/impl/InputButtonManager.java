@@ -3,8 +3,6 @@ package ana.io.device.impl;
 
 // main
 
-import ana.io.device.InputButtonStatus;
-
 public class InputButtonManager {
     // attr
 

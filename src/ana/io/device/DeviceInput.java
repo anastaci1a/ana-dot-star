@@ -4,6 +4,7 @@ package ana.io.device;
 // dep
 
 import ana.io.device.impl.FramelyInputListener;
+import ana.io.device.impl.InputButtonStatus;
 import ana.io.device.keyboard.Key;
 import ana.io.device.keyboard.KeyboardListener;
 import ana.io.device.mouse.Mouse;

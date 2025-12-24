@@ -5,7 +5,7 @@ package ana.io.device.keyboard;
 
 import ana.io.device.impl.FramelyInputListener;
 import ana.io.device.impl.InputButtonManager;
-import ana.io.device.InputButtonStatus;
+import ana.io.device.impl.InputButtonStatus;
 
 import javafx.scene.Scene;
 

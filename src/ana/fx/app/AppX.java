@@ -5,7 +5,7 @@ package ana.fx.app;
 
 import ana.fx.canvas.Canvas;
 import ana.io.device.DeviceInput;
-import ana.io.device.InputButtonStatus;
+import ana.io.device.impl.InputButtonStatus;
 import ana.io.device.keyboard.Key;
 import ana.io.device.mouse.Mouse;
 import ana.util.math.vector.point.DoublePoint;
