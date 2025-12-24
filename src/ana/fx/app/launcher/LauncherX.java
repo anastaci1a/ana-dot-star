@@ -31,12 +31,12 @@ public abstract class LauncherX<AppType extends AppX> extends Launcher<AppType> 
     @Override
     protected AppType newApp(Info info) {
         DeviceInput input = newInput(info);
-        AppX.Init init = new AppX.Init(info.canvas, input);
+        AppX.Init init = new AppX.Init(info.canvas(), input);
         return initApp(init);
     }
 
     protected DeviceInput newInput(Info info) {
-        return DeviceInput.listener(info.stage, info.scene);
+        return DeviceInput.listener(info.stage(), info.scene());
     }
 }
 

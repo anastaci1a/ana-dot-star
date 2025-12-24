@@ -233,14 +233,8 @@ public class Draw {
     }
 
     protected void line(DoublePoint p1, DoublePoint p2, double weight, int argb) {
-
         IntPoint ip1 = applyMatrix(p1);
         IntPoint ip2 = applyMatrix(p2);
-
-        // NEVERMIND IT'S WEIRD
-        // // easy solution, should use a polygon (not implemented)
-        // IntPoint weightVec = applyMatrix(new DoubleVector(MathExt.SQRT2, 0));
-        // int weightAdj = (int) Math.round(weightVec.mag());
 
         baseWeightedLine(ip1, ip2, (int) Math.round(strokeWeight), argb);
     }

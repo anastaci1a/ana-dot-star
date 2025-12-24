@@ -55,7 +55,7 @@ public abstract class Launcher<AppType extends App> extends Application {
         doEventLoop(app, info);
     }
 
-    protected void postLaunch(AppType app, Info info) throws Exception {};
+    protected void postLaunch(AppType app, Info info) throws Exception {}
 
     // looped events
 
@@ -153,23 +153,7 @@ public abstract class Launcher<AppType extends App> extends Application {
 
     // inner util
 
-    protected static class Info { // class instead of record for subclassing
-        // attr
-
-        public final WindowConfig cfg;
-        public final Canvas canvas;
-        public final Stage stage;
-        public final Scene scene;
-
-        // constr
-
-        public Info(WindowConfig cfg, Canvas canvas, Stage stage, Scene scene) {
-            this.cfg = cfg;
-            this.canvas = canvas;
-            this.stage = stage;
-            this.scene = scene;
-        }
-    }
+    protected record Info(WindowConfig cfg, Canvas canvas, Stage stage, Scene scene) {}
 
 
     // --

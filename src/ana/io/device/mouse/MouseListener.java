@@ -45,7 +45,7 @@ public class MouseListener implements FramelyInputListener {
             mouseInputs.put(m, new InputButtonManager());
         }
 
-        // init mouse position
+        // init mouse positions
         pos       = new DoubleVector(0, 0);
         scenePos  = new DoubleVector(0, 0);
         screenPos = new DoubleVector(0, 0);

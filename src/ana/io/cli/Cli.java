@@ -464,11 +464,9 @@ public final class Cli {
             private String getSideChar(int row, int rowsTotal, boolean side, String sideStr) {
                 if (side) return sideStr;
 
-                String ch = includeSpecialOnVSide(row, rowsTotal, side)
-                            ? chSpecial()
-                            : (topLine || bottomLine ? " " : "");
-
-                return ch;
+                return includeSpecialOnVSide(row, rowsTotal, side)
+                       ? chSpecial()
+                       : (topLine || bottomLine ? " " : "");
             }
 
             // priv str building
