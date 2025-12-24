@@ -1,4 +1,4 @@
-package ana.util.math.point;
+package ana.util.math.vector.point;
 
 
 // dep

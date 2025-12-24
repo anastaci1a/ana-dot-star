@@ -4,8 +4,8 @@ package ana.fx.window;
 // dep
 
 import ana.util.color.Color;
-import ana.util.math.point.DoublePoint;
-import ana.util.math.point.IntPoint;
+import ana.util.math.vector.point.DoublePoint;
+import ana.util.math.vector.point.IntPoint;
 import ana.util.math.vector.DoubleVector;
 import ana.util.math.vector.IntVector;
 

@@ -8,7 +8,7 @@ import ana.io.device.keyboard.Key;
 import ana.io.device.keyboard.KeyboardListener;
 import ana.io.device.mouse.Mouse;
 import ana.io.device.mouse.MouseListener;
-import ana.util.math.point.DoublePoint;
+import ana.util.math.vector.point.DoublePoint;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;

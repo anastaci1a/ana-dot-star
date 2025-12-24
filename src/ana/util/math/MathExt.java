@@ -3,8 +3,8 @@ package ana.util.math;
 
 // dep
 
-import ana.util.math.point.DoublePoint;
-import ana.util.math.point.IntPoint;
+import ana.util.math.vector.point.DoublePoint;
+import ana.util.math.vector.point.IntPoint;
 
 
 // main

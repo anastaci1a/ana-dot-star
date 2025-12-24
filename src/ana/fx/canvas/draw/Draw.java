@@ -8,9 +8,9 @@ import ana.lang.MatrixStackEmptyException;
 import ana.util.color.Color;
 import ana.util.math.Axis;
 import ana.util.math.MathExt;
-import ana.util.math.bounds.DoubleBounds;
-import ana.util.math.point.DoublePoint;
-import ana.util.math.point.IntPoint;
+import ana.util.math.vector.bounds.DoubleBounds;
+import ana.util.math.vector.point.DoublePoint;
+import ana.util.math.vector.point.IntPoint;
 import ana.util.math.vector.DoubleVector;
 import ana.util.math.vector.IntVector;
 

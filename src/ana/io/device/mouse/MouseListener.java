@@ -6,7 +6,7 @@ package ana.io.device.mouse;
 import ana.io.device.impl.FramelyInputListener;
 import ana.io.device.impl.InputButtonManager;
 import ana.io.device.InputButtonStatus;
-import ana.util.math.point.DoublePoint;
+import ana.util.math.vector.point.DoublePoint;
 import ana.util.math.vector.DoubleVector;
 
 import javafx.scene.Scene;

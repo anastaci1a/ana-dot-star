@@ -8,7 +8,7 @@ import ana.fx.canvas.draw.Draw;
 import ana.lang.ConfigReassignmentException;
 import ana.lang.fx.InvalidDrawInstanceException;
 import ana.util.math.vector.IntVector;
-import ana.util.math.point.IntPoint;
+import ana.util.math.vector.point.IntPoint;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;

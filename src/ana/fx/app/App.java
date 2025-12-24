@@ -5,7 +5,7 @@ package ana.fx.app;
 
 import ana.fx.canvas.Canvas;
 import ana.fx.canvas.draw.Draw;
-import ana.util.math.point.IntPoint;
+import ana.util.math.vector.point.IntPoint;
 
 
 // main

@@ -5,7 +5,7 @@ package ana.util.math.vector;
 
 import ana.util.math.Axis;
 import ana.util.math.Radians;
-import ana.util.math.point.DoublePoint;
+import ana.util.math.vector.point.DoublePoint;
 
 import java.util.function.Function;
 

@@ -1,9 +1,9 @@
-package ana.util.math.bounds;
+package ana.util.math.vector.bounds;
 
 
 // dep
 
-import ana.util.math.point.IntPoint;
+import ana.util.math.vector.point.IntPoint;
 import ana.util.math.vector.IntVector;
 
 
