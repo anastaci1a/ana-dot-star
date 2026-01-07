@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 public abstract class Launcher<AppType extends App> extends Application {
     // user init
 
-    public abstract AppType initApp(App.Init init);
+    public abstract AppType initApp(AppType.Init init);
 
     public WindowConfig initWindow() {
         return WindowConfig.WINDOW_CFG_DEFAULT;
@@ -138,7 +138,7 @@ public abstract class Launcher<AppType extends App> extends Application {
     }
 
     protected AppType newApp(Info info) {
-        App.Init init = new App.Init(info.canvas);
+        App.Init init = new AppType.Init(info.canvas);
         return initApp(init);
     }
 

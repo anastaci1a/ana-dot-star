@@ -13,7 +13,7 @@ import ana.io.device.DeviceInput;
 public abstract class LauncherX<AppType extends AppX> extends Launcher<AppType> {
     // user init
 
-    public abstract AppType initApp(AppX.Init init);
+    public abstract AppType initApp(AppType.Init init); // enforce type (? extends AppX).Init
 
     @Override
     public final AppType initApp(App.Init init) { return null; }
@@ -31,7 +31,7 @@ public abstract class LauncherX<AppType extends AppX> extends Launcher<AppType> 
     @Override
     protected AppType newApp(Info info) {
         DeviceInput input = newInput(info);
-        AppX.Init init = new AppX.Init(info.canvas(), input);
+        AppX.Init init = new AppType.Init(info.canvas(), input);
         return initApp(init);
     }
 
