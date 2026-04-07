@@ -23,9 +23,9 @@ module ana {
     // exp
 
     exports ana.fx.app;
+    exports ana.fx.app.launcher;
     exports ana.fx.canvas;
     exports ana.fx.canvas.draw;
-    exports ana.fx.app.launcher;
     exports ana.fx.window;
 
     exports ana.io.cli;
@@ -33,14 +33,16 @@ module ana {
     exports ana.io.device.impl;
     exports ana.io.device.keyboard;
     exports ana.io.device.mouse;
+    exports ana.io.file;
 
     exports ana.lang;
     exports ana.lang.fx;
 
     exports ana.util.color;
     exports ana.util.math;
+    exports ana.util.math.vector;
     exports ana.util.math.vector.bounds;
     exports ana.util.math.vector.point;
-    exports ana.util.math.vector;
-    exports ana.util.style;
+    exports ana.util.text;
+    exports ana.util.theme;
 }

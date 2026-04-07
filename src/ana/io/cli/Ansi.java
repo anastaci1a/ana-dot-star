@@ -4,8 +4,7 @@ package ana.io.cli;
 // dep
 
 import ana.util.color.Color;
-import ana.util.style.TextAttr;
-import ana.util.style.TextStyle;
+import ana.util.text.*;
 
 import java.util.*;
 
@@ -33,7 +32,7 @@ public final class Ansi {
 
     // get codes
 
-    public static String from(TextStyle style) {
+    public static String from(TextGroupStyle style) {
         List<String> parts = new ArrayList<>(style.attrs.size() + 1);
 
         // attrs
@@ -66,9 +65,27 @@ public final class Ansi {
         );
     }
 
-    // format (basic)
+    // format
 
-    public static String format(String str, TextStyle style) {
+    public static String format(List<TextGroup> groups) {
+        String str = "";
+        for (TextGroup group : groups) {
+            str += format(group);
+        }
+
+        return str;
+    }
+
+    public static String format(TextGroup group) {
+        return format(group.str, group.style);
+    }
+
+    public static String format(String str, TextAttr... attrs) {
+        TextGroupStyle style = new TextGroupStyle(attrs);
+        return format(str, style);
+    }
+
+    public static String format(String str, TextGroupStyle style) {
         return formatFromCodeStr(str, from(style));
     }
 
@@ -78,37 +95,12 @@ public final class Ansi {
 
     private static String formatFromCodeStr(String str, String code) {
         if (code == null || code.isEmpty()) return str;
+        str = str.replaceAll("\033\\[0m", "\033\\[0m" + code);
         return code + str + Attr.RESET;
-    }
-
-    // format (advanced)
-
-    public static String formatMD(String str) {
-        return "";
     }
 
 
     // --
-
-
-    // private enum MarkdownAttr {
-    //     ITALIC    ("[\\*|\\*]", Attr.ITALIC),
-    //     UNDERLINE ("__",        Attr.UNDERLINE),
-    //     BOLD      ("\\*\\*",    Attr.BOLD);
-    //
-    //     // attr
-    //
-    //     private final String regex;
-    //     private final Attr   attr;
-    //
-    //     // constr
-    //
-    //     MarkdownAttr(String searchChars, Attr attr) {
-    //         this.searchChars = searchChars;
-    //         this.attr = attr;
-    //     }
-    //
-    // }
 
 
     // text attr

@@ -1,4 +1,4 @@
-package ana.util.style;
+package ana.util.text;
 
 
 // main

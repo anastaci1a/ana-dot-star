@@ -5,11 +5,12 @@ package ana.io.cli;
 
 import ana.io.file.FileExt;
 import ana.util.color.Color;
-import ana.util.style.Palette;
-import ana.util.style.TextAttr;
-import ana.util.style.TextStyle;
+import ana.util.text.*;
+import ana.util.theme.Palette;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.function.Consumer;
@@ -193,82 +194,62 @@ public final class Cli {
         return inputStr;
     }
 
-    // headings
+    // default text types shortcuts
 
     public static void h1(String txt) {
-        h1(System.out, txt);
+        TextType.H1.printf(txt, System.out);
     }
-
-    public static void h1(PrintStream osw, String txt) {
-        osw.print(
-            Heading.H1.format(txt)
-        );
+    public static void h1(PrintStream ps, String txt) {
+        TextType.H1.printf(txt, ps);
     }
-
     public static void h1(PrintWriter pw, String txt) {
-        pw.print(
-            Heading.H1.format(txt)
-        );
+        TextType.H1.printf(txt, pw);
     }
 
     public static void h2(String txt) {
-        h2(System.out, txt);
+        TextType.H2.printf(txt, System.out);
     }
-
     public static void h2(PrintStream ps, String txt) {
-        ps.print(
-            Heading.H2.format(txt)
-        );
+        TextType.H2.printf(txt, ps);
     }
-
     public static void h2(PrintWriter pw, String txt) {
-        pw.print(
-            Heading.H2.format(txt)
-        );
+        TextType.H2.printf(txt, pw);
     }
 
     public static void h3(String txt) {
-        h3(System.out, txt);
+        TextType.H3.printf(txt, System.out);
     }
-
     public static void h3(PrintStream ps, String txt) {
-        ps.print(
-            Heading.H3.format(txt)
-        );
+        TextType.H3.printf(txt, ps);
     }
-
     public static void h3(PrintWriter pw, String txt) {
-        pw.print(
-            Heading.H3.format(txt)
-        );
+        TextType.H3.printf(txt, pw);
     }
 
     public static void h4(String txt) {
-        h4(System.out, txt);
+        TextType.H4.printf(txt, System.out);
     }
-
     public static void h4(PrintStream ps, String txt) {
-        ps.print(
-            Heading.H4.format(txt)
-        );
+        TextType.H4.printf(txt, ps);
     }
-
     public static void h4(PrintWriter pw, String txt) {
-        pw.print(
-            Heading.H4.format(txt)
-        );
+        TextType.H4.printf(txt, pw);
     }
 
-    // heading
+    // default text family shortcut(s)
 
-    public static final class Heading {
-        // no inst
+    public static void mdPrintf(String format, Object... args) {
+        TextFamily.DEFAULT.mdPrintf(format, args);
+    }
 
-        private Heading() {}
+    // text type
+
+    public static class TextType {
+        // -- static --
 
         // const
 
-        public static final String HEADING_CHARSET_DEFAULT = "─│╭╮╰╯•";
+        public static final String CHARSET_DEFAULT = "─│╭╮╰╯•";
         public static final int    SPECIALS_AMOUNT_DEFAULT = 2;
 
         public static final Palette PALETTE_DEFAULT = new Palette(
@@ -276,267 +257,398 @@ public final class Cli {
             Color.AQUAMARINE
         );
 
-        public static final TextStyle TEXT_STYLE_DEFAULT = new TextStyle(
-            Color.WHITE, TextAttr.BOLD
+        public static final TextGroupStyle STYLE_DEFAULT = new TextGroupStyle(
+            Color.WHITE
         );
 
+        // inst
 
-        // const ref
-
-        public static final Style H1 = new Style(
+        public static final TextType H1 = new TextType(
             /* top  / bottom */ true, true,
             /* left / right  */ true, true
         );
 
-        public static final Style H2 = new Style(
-            /* top  / bottom */ false, true,
-            /* left / right  */ true,  false
+        public static final TextType H2 = new TextType(
+            /* top  / BOTTOM */ false, true,
+            /* LEFT / right  */ true,  false
         );
 
-        public static final Style H3 = new Style(
+        public static final TextType H3 = new TextType(
             /* top  / bottom */ false, false,
-            /* left / right  */ true,  true
+            /* LEFT / RIGHT  */ true,  true
         );
 
-        public static final Style H4 = new Style(
-            /* top  / bottom */ false, true,
+        public static final TextType H4 = new TextType(
+            /* top  / BOTTOM */ false, true,
             /* left / right  */ false, false
         );
 
-        public static final Style H5 = new Style(
+        public static final TextType QUOTE = new TextType(
+            /* top  / bottom */ false, false,
+            /* LEFT / right  */ true,  false
+        );
+
+        public static final TextType P = new TextType(
             /* top  / bottom */ false, false,
             /* left / right  */ false, false
         );
 
-        // inner
+        // -- inst --
 
-        public static class Style {
-            public final String charset;
+        // const
 
-            public final boolean topLine, bottomLine, leftLine, rightLine;
+        public final String charset;
 
-            public final Palette   palette;
-            public final TextStyle textStyle;
-            public final Color     lineCol, cornerCol;
+        public final boolean topLine, bottomLine, leftLine, rightLine;
 
-            // constr
+        public final Palette        palette;
+        public final TextGroupStyle style;
+        public final Color          lineCol, cornerCol;
 
-            public Style (Palette palette) {
-                this(palette, TEXT_STYLE_DEFAULT);
-            }
+        // constr
 
-            public Style (Palette palette, TextStyle textStyle) {
-                this(
-                    palette, textStyle,
-                    HEADING_CHARSET_DEFAULT
-                );
-            }
+        public TextType(Palette palette) {
+            this(palette, STYLE_DEFAULT);
+        }
 
-            public Style (Palette palette, TextStyle textStyle, String charset) {
-                this(
-                    palette, textStyle, charset,
-                    H1.topLine,  H1.bottomLine,
-                    H1.leftLine, H1.rightLine
-                );
-            }
+        public TextType(Palette palette, TextGroupStyle style) {
+            this(
+                palette, style, CHARSET_DEFAULT
+            );
+        }
 
-            public Style (
-                boolean topLine,
-                boolean bottomLine,
-                boolean leftLine,
-                boolean rightLine
-            ) {
-                this(
-                    PALETTE_DEFAULT,
-                    TEXT_STYLE_DEFAULT,
-                    HEADING_CHARSET_DEFAULT,
+        public TextType(Palette palette, TextGroupStyle style, String charset) {
+            this(
+                palette, style, charset,
+                H1.topLine,  H1.bottomLine,
+                H1.leftLine, H1.rightLine
+            );
+        }
 
-                    topLine,
-                    bottomLine,
-                    rightLine,
-                    leftLine
-                );
-            }
+        public TextType(
+            boolean topLine,
+            boolean bottomLine,
+            boolean leftLine,
+            boolean rightLine
+        ) {
+            this(
+                PALETTE_DEFAULT, STYLE_DEFAULT, CHARSET_DEFAULT,
 
-            public Style (
-                Palette   palette,
-                TextStyle textStyle,
-                String    charset,
+                topLine,
+                bottomLine,
+                leftLine,
+                rightLine
+            );
+        }
 
-                boolean topLine,
-                boolean bottomLine,
-                boolean leftLine,
-                boolean rightLine
-            ) {
-                this.palette   = palette;
-                this.textStyle = textStyle;
+        public TextType(
+            Palette        palette,
+            TextGroupStyle style,
+            String         charset,
 
-                this.lineCol   = palette.primary();
-                this.cornerCol = palette.secondary();
+            boolean topLine,
+            boolean bottomLine,
+            boolean leftLine,
+            boolean rightLine
+        ) {
+            this.palette   = palette;
+            this.style = style;
 
-                this.charset = charset;
+            this.lineCol   = palette.primary();
+            this.cornerCol = palette.secondary();
 
-                this.topLine    = topLine;
-                this.bottomLine = bottomLine;
-                this.rightLine  = rightLine;
-                this.leftLine   = leftLine;
-            }
+            this.charset = charset;
 
-            // method
+            this.topLine    = topLine;
+            this.bottomLine = bottomLine;
+            this.leftLine   = leftLine;
+            this.rightLine  = rightLine;
+        }
 
-            public String format(String text) {
-                // text init
-                String[] textSplit = text.split("\n");
+        // print
 
-                // line calc
-                int longest = maxLineLength(textSplit);
-                int lineLength = getLineLength(longest);
+        public void printf(String format, Object... args) {
+            printf(format, System.out, args);
+        }
 
-                // format
-                String textf = "";
-                if (longest != lineLength) {
-                    for (int i = 0; i < textSplit.length; i++) {
-                        String str = Ansi.stripCodes(textSplit[i]);
-                        textf += formatText(str, i, textSplit.length, lineLength) + "\n";
-                    }
-                } else {
-                    textf = String.join("\n", textSplit) + "\n";
-                    textf = Ansi.format(textf, textStyle);
+        public void printf(String format, PrintStream ps, Object... args) {
+            ps.println(
+                format(format, args)
+            );
+        }
+
+        public void printf(String format, PrintWriter pw, Object... args) {
+            pw.println(
+                format(format, args)
+            );
+        }
+
+        // format
+
+        public String format(String format, Object... args) {
+            String text = String.format(format, args);
+
+            // strip
+            String text_stripped = Ansi.stripCodes(text);
+
+            // text init
+            String[] textSplit = text.split("\n");
+            String[] textSplit_stripped = text_stripped.split("\n");
+
+            // line calc
+            int longest = maxLineLength(textSplit_stripped);
+            int lineLength = getLineLength(longest);
+
+            // format
+            String textf = "";
+            if (longest != lineLength) {
+                for (int i = 0; i < textSplit_stripped.length; i++) {
+                    String str = textSplit[i];
+                    textf += formatText(str, i, textSplit_stripped.length, lineLength) + "\n";
                 }
-
-                // build
-                return String.format(
-                    "\n%s%s%s",
-                    topLineStr(lineLength),
-                    textf,
-                    bottomLineStr(lineLength)
-                );
+            } else {
+                textf = Ansi.format(text, style);
             }
 
-            // get clone
+            // build
+            return String.format(
+                "\n%s%s%s",
+                topLineStr(lineLength),
+                textf,
+                bottomLineStr(lineLength)
+            );
+        }
 
-            public Style withModif(
-                Palette   palette,
-                TextStyle textStyle,
-                String    charset
-            ) {
-                Palette   p = Optional.ofNullable(palette  ).orElse(this.palette);
-                TextStyle s = Optional.ofNullable(textStyle).orElse(this.textStyle);
-                String    c = Optional.ofNullable(charset  ).orElse(this.charset);
+        // get clone
 
-                return new Style(
-                    p, s, c,
-                    topLine,  bottomLine,
-                    leftLine, rightLine
-                );
+        public TextType withModif(
+            Palette        palette,
+            TextGroupStyle textStyle,
+            String         charset
+        ) {
+            Palette        p = Optional.ofNullable(palette  ).orElse(this.palette);
+            TextGroupStyle s = Optional.ofNullable(textStyle).orElse(this.style);
+            String         c = Optional.ofNullable(charset  ).orElse(this.charset);
+
+            return new TextType(
+                p, s, c,
+                topLine,  bottomLine,
+                leftLine, rightLine
+            );
+        }
+
+        // priv get
+
+        public String chLineH()   { return fCharAt(0,   lineCol); }
+        public String chLineV()   { return fCharAt(1,   lineCol); }
+        public String chCnrTL()   { return fCharAt(2, cornerCol); }
+        public String chCnrTR()   { return fCharAt(3, cornerCol); }
+        public String chCnrBL()   { return fCharAt(4, cornerCol); }
+        public String chCnrBR()   { return fCharAt(5, cornerCol); }
+        public String chSpecial() { return fCharAt(6, cornerCol); }
+
+        private String fCharAt(int i, Color col) {
+            return Ansi.format(Character.toString(charset.charAt(i)), col);
+        }
+
+        // priv format
+
+        private String formatText(String text, int row, int rowsTotal, int lineLength) {
+            // md parse
+            text = Ansi.format(text, style); // style (additive)
+
+            // chars l/r to text
+            String leftChar  = getSideChar(row, rowsTotal, leftLine,  chLineV());
+            String rightChar = getSideChar(row, rowsTotal, rightLine, chLineV());
+
+            String left = leftChar + " " + text;
+
+            // padding
+            int paddingAmount = lineLength - Ansi.stripCodes(left).length() - 1;
+            String padding = " ".repeat(paddingAmount);
+
+            return left + padding + rightChar;
+        }
+
+        private String getSideChar(int row, int rowsTotal, boolean side, String sideStr) {
+            if (side) return sideStr;
+
+            return includeSpecialOnVSide(row, rowsTotal, side)
+                   ? chSpecial()
+                   : (topLine || bottomLine ? " " : "");
+        }
+
+        // priv str building
+
+        private String topLineStr(int lineLength) {
+            return horiLineStr(topLine, lineLength, chCnrTL(), chCnrTR());
+        }
+
+        private String bottomLineStr(int lineLength) {
+            return horiLineStr(bottomLine, lineLength, chCnrBL(), chCnrBR());
+        }
+
+        private String horiLineStr(boolean side, int lineLength, String leftCorner, String rightCorner) {
+            String ch = side ? Ansi.stripCodes(chLineH()) : " ";
+            String line = ch.repeat(Math.max(lineLength - 2, 0));
+
+            if (!side) {
+                String specials = getSpecialsOnHSides();
+
+                String left  = Ansi.stripCodes(leftCorner + " " + specials);
+                String right = Ansi.stripCodes(specials + " " + rightCorner);
+                if (!leftLine)  left = "";
+                if (!rightLine) right = "";
+
+                int padding = Math.max(0, lineLength - left.length() - right.length());
+
+                line = left + " ".repeat(padding) + right;
+                line = line.isBlank() ? "" : Ansi.format(line, cornerCol) + "\n";
+            } else {
+                line = Ansi.format(line, lineCol);
+                line = leftCorner + line + rightCorner + "\n";
             }
 
-            // priv get
+            return line;
+        }
 
-            public String chLineH()   { return fCharAt(0,   lineCol); }
-            public String chLineV()   { return fCharAt(1,   lineCol); }
-            public String chCnrTL()   { return fCharAt(2, cornerCol); }
-            public String chCnrTR()   { return fCharAt(3, cornerCol); }
-            public String chCnrBL()   { return fCharAt(4, cornerCol); }
-            public String chCnrBR()   { return fCharAt(5, cornerCol); }
-            public String chSpecial() { return fCharAt(6, cornerCol); }
+        private String getSpecialsOnHSides() {
+            String ch = (Ansi.stripCodes(chSpecial()) + " ");
+            return ch.repeat(SPECIALS_AMOUNT_DEFAULT).strip();
+        }
 
-            private String fCharAt(int i, Color col) {
-                return Ansi.format(Character.toString(charset.charAt(i)), col);
+        private int getLineLength(int maxTextLength) {
+            int padding = 0;
+
+            if      (topLine  || bottomLine) padding = 4;
+            else if (leftLine && rightLine)  padding = 4;
+            else if (leftLine || rightLine)  padding = 3;
+
+            return maxTextLength + padding;
+        }
+
+        private boolean includeSpecialOnVSide(int row, int rowsTotal, boolean side) {
+            boolean topInRange    = row < SPECIALS_AMOUNT_DEFAULT;
+            boolean bottomInRange = row >= rowsTotal - SPECIALS_AMOUNT_DEFAULT;
+
+            boolean top    = topLine    && !side && topInRange;
+            boolean bottom = bottomLine && !side && bottomInRange;
+
+            return top || bottom;
+        }
+
+        // priv util
+
+        private static int maxLineLength(String[] lines) {
+            int longest = 0;
+            for (String l : lines)
+                if (l.length() > longest) longest = l.length();
+
+            return longest;
+        }
+    }
+
+    // text family
+
+    public static class TextFamily extends HashMap<TextLineType, TextType> {
+        // -- static --
+
+        public static TextFamily DEFAULT = new TextFamily(Map.of(
+            TextLineType.H1, TextType.H1,
+            TextLineType.H2, TextType.H2,
+            TextLineType.H3, TextType.H3,
+            TextLineType.H4, TextType.H4,
+
+            TextLineType.QUOTE, TextType.QUOTE,
+
+            TextLineType.P, TextType.P
+        ));
+
+        // -- inst --
+
+        // constr
+
+        public TextFamily(Map<? extends TextLineType, ? extends TextType> m) {
+            super(m);
+
+            // add default
+            if (!containsKey(TextLineType.P)) put(
+                TextLineType.P, TextType.P
+            );
+        }
+
+        // get
+
+        public TextType get(TextLineType type) {
+            if (!containsKey(type)) return get(TextType.P); // will always exist
+
+            return super.get(type);
+        }
+
+        // print
+
+        public void mdPrintf(String format, Object... args) {
+            mdPrintf(format, System.out, args);
+        }
+
+        public void mdPrintf(String format, PrintStream ps, Object... args) {
+            ps.println(
+                mdFormat(format, args)
+            );
+        }
+
+        public void mdPrintf(String format, PrintWriter pw, Object... args) {
+            pw.println(
+                mdFormat(format, args)
+            );
+        }
+
+        // format
+
+        public String mdFormat(String format, Object... args) {
+            Text text = Text.mdParse(format, args);
+
+            return mdFormat(text);
+        }
+
+        public String mdFormat(Text text) {
+            String str = "";
+
+            for (TextLine line : text.lines) {
+                str += mdFormat(line).strip() + "\n\n";
             }
 
-            // priv format
+            return str.strip();
+        }
 
-            private String formatText(String text, int row, int rowsTotal, int lineLength) {
-                text = Ansi.format(text, textStyle);
+        public String mdFormat(TextLine line) {
+            String str = "";
 
-                String leftChar  = getSideChar(row, rowsTotal, leftLine,  chLineV());
-                String rightChar = getSideChar(row, rowsTotal, rightLine, chLineV());
-
-                String left = leftChar + " " + text;
-
-                int paddingAmount = lineLength - Ansi.stripCodes(left).length() - 1;
-                String padding = " ".repeat(paddingAmount);
-
-                return left + padding + rightChar;
+            for (TextGroup group : line.groups) {
+                str += Ansi.format(group);
             }
 
-            private String getSideChar(int row, int rowsTotal, boolean side, String sideStr) {
-                if (side) return sideStr;
+            str = get(line.type).format(str);
 
-                return includeSpecialOnVSide(row, rowsTotal, side)
-                       ? chSpecial()
-                       : (topLine || bottomLine ? " " : "");
+            return str;
+        }
+
+        // get clone
+
+        public TextFamily withModif(
+            Palette        palette,
+            TextGroupStyle textStyle,
+            String         charset
+        ) {
+            Map<TextLineType, TextType> newFamilyMap = new HashMap<>();
+
+            for (TextLineType key : this.keySet()) {
+                TextType type = get(key).withModif(palette, textStyle, charset);
+
+                newFamilyMap.put(key, type);
             }
 
-            // priv str building
-
-            private String topLineStr(int lineLength) {
-                return horiLineStr(topLine, lineLength, chCnrTL(), chCnrTR());
-            }
-
-            private String bottomLineStr(int lineLength) {
-                return horiLineStr(bottomLine, lineLength, chCnrBL(), chCnrBR());
-            }
-
-            private String horiLineStr(boolean side, int lineLength, String leftCorner, String rightCorner) {
-                String ch = side ? Ansi.stripCodes(chLineH()) : " ";
-                String line = ch.repeat(lineLength - 2);
-
-                if (!side) {
-                    String specials = getSpecialsOnHSides();
-
-                    String left  = Ansi.stripCodes(leftCorner + " " + specials);
-                    String right = Ansi.stripCodes(specials + " " + rightCorner);
-                    if (!leftLine)  left = "";
-                    if (!rightLine) right = "";
-
-                    int padding = Math.max(0, lineLength - left.length() - right.length());
-
-                    line = left + " ".repeat(padding) + right;
-                    line = line.isBlank() ? "" : Ansi.format(line, cornerCol) + "\n";
-                } else {
-                    line = Ansi.format(line, lineCol);
-                    line = leftCorner + line + rightCorner + "\n";
-                }
-
-                return line;
-            }
-
-            private String getSpecialsOnHSides() {
-                String ch = (Ansi.stripCodes(chSpecial()) + " ");
-                return ch.repeat(SPECIALS_AMOUNT_DEFAULT).strip();
-            }
-
-            private int getLineLength(int maxTextLength) {
-                int padding = 0;
-
-                if      (topLine  || bottomLine) padding = 4;
-                else if (leftLine && rightLine)  padding = 4;
-                else if (leftLine || rightLine)  padding = 3;
-
-                return maxTextLength + padding;
-            }
-
-            private boolean includeSpecialOnVSide(int row, int rowsTotal, boolean side) {
-                boolean topInRange    = row < SPECIALS_AMOUNT_DEFAULT;
-                boolean bottomInRange = row >= rowsTotal - SPECIALS_AMOUNT_DEFAULT;
-
-                boolean top    = topLine    && !side && topInRange;
-                boolean bottom = bottomLine && !side && bottomInRange;
-
-                return top || bottom;
-            }
-
-            // priv util
-
-            private static int maxLineLength(String[] lines) {
-                int longest = 0;
-                for (String l : lines)
-                    if (l.length() > longest) longest = l.length();
-
-                return longest;
-            }
+            return new TextFamily(newFamilyMap);
         }
     }
 }
