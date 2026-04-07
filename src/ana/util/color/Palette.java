@@ -1,9 +1,8 @@
-package ana.util.theme;
+package ana.util.color;
 
 
 // dep
 
-import ana.util.color.Color;
 import ana.util.math.MathExt;
 
 

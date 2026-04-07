@@ -6,7 +6,7 @@ package ana.io.cli;
 import ana.io.file.FileExt;
 import ana.util.color.Color;
 import ana.util.text.*;
-import ana.util.theme.Palette;
+import ana.util.color.Palette;
 
 import java.io.*;
 import java.util.HashMap;
