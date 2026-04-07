@@ -1,6 +1,6 @@
 # ana.\* – A flexible Java library for graphics, CLI, and more!
 
-## High-Level Exports ([read the full docs](https://anastaci1a.github.io/ana-dot-star/)):
+## Top-Level Exports ([read the full docs](https://anastaci1a.github.io/ana-dot-star/)):
 | Package                                                                                   | Description                                                        |
 |:------------------------------------------------------------------------------------------|:-------------------------------------------------------------------|
 | [*ana.fx*](https://anastaci1a.github.io/ana-dot-star/ana/ana/fx/package-summary.html)     | Utilities and extended functionality for <code>javafx</code>       |
