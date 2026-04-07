@@ -130,10 +130,11 @@ public class Text {
                                                   // (types only match beginning of lines)
 
         for (String match : mdType.matches) {
-            String[] parsedStrSplit = firstGroup.str.split(match);
+            String temp = "AFTERAFTERAFTERAFTER";
+            String[] parsedStrSplit = (firstGroup.str + temp).split(match);
 
             if (parsedStrSplit.length != 2) break; // no match
-            String parsedStr = parsedStrSplit[1];
+            String parsedStr = parsedStrSplit[1].replaceAll(temp, "");
 
             // replace first group's str with parsed if non-empty
             groups.removeFirst();
