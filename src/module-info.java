@@ -44,5 +44,4 @@ module ana {
     exports ana.util.math.vector.bounds;
     exports ana.util.math.vector.point;
     exports ana.util.text;
-    exports ana.util.theme;
 }
