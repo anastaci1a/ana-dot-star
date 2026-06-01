@@ -41,8 +41,9 @@ public class MouseListener implements FramelyInputListener {
         // init mouseInputs
         mouseInputs = new HashMap<>();
         for (Mouse m : Mouse.values()) {
-            assert false; // thanks intellij
-            mouseInputs.put(m, new InputButtonManager());
+            if (m != Mouse.FALLBACK) {
+                mouseInputs.put(m, new InputButtonManager());
+            }
         }
 
         // init mouse positions
