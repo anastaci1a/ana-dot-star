@@ -325,10 +325,11 @@ public class Draw {
             size.x() - 1, size.y() - 1
         );
         if (inBounds) {
-            updateModifBounds(x, y);
-
             int idx = idx(x, y);
-            intArray[idx] = argb;
+            if (intArray[idx] != argb) {
+                intArray[idx] = argb;
+                updateModifBounds(x, y);
+            }
         }
     }
 
