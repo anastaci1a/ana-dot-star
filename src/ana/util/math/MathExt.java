@@ -24,7 +24,7 @@ public final class MathExt {
 
     // stat
 
-    public static double randomGauss(double x) {
+    public static double randomGauss() {
         double u1 = Math.random(); // strictly > 0
         double u2 = Math.random();
 
