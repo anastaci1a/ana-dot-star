@@ -9,8 +9,7 @@ import ana.util.math.vector.point.IntPoint;
 import ana.util.math.vector.DoubleVector;
 import ana.util.math.vector.IntVector;
 
-import javafx.geometry.Rectangle2D;
-import javafx.stage.Screen;
+import java.awt.*;
 
 
 // main
@@ -33,6 +32,8 @@ public final class WindowConfig {
     public final double sizeRatio;
     public final IntPoint size, pos;
 
+    public final Color bgColor;
+
     // constr
 
     public WindowConfig(
@@ -46,6 +47,7 @@ public final class WindowConfig {
         // title, color
 
         this.title = title;
+        this.bgColor = bgColor;
 
         // size, pos
 
@@ -64,7 +66,7 @@ public final class WindowConfig {
     // priv static util
 
     private static DoubleVector getScreenSize() {
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        Dimension screenBounds = Toolkit.getDefaultToolkit().getScreenSize();
         return new DoubleVector(screenBounds.getWidth(), screenBounds.getHeight());
     }
 
