@@ -612,13 +612,27 @@ public final class Cli {
         }
 
         public String mdFormat(Text text) {
-            String str = "";
+            StringBuilder str = new StringBuilder();
 
-            for (TextLine line : text.lines) {
-                str += mdFormat(line).strip() + "\n\n";
+            for (int i = 0; i < text.lines.size(); i++) {
+                TextLine currLine = text.lines.get(i);
+                ArrayList<TextGroup> groups = new ArrayList<>();
+
+                while (true) {
+                    if (!groups.isEmpty())
+                        groups.add(new TextGroup("\n"));
+                    groups.addAll(currLine.groups);
+
+                    if (i+1 < text.lines.size() && text.lines.get(i+1).type == currLine.type) {
+                        currLine = text.lines.get(++i);
+                    } else break;
+                }
+
+                String md = mdFormat(new TextLine(currLine.type, groups)).strip();
+                str.append(md).append("\n\n");
             }
 
-            return str.strip();
+            return str.toString().strip();
         }
 
         public String mdFormat(TextLine line) {
