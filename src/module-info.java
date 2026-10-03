@@ -19,6 +19,7 @@ module ana {
     // req
 
     requires javafx.graphics;
+    requires java.desktop;
 
     // exp
 
