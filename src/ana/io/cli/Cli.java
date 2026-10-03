@@ -5,14 +5,13 @@ package ana.io.cli;
 
 import ana.io.file.FileExt;
 import ana.util.color.Color;
-import ana.util.text.*;
 import ana.util.color.Palette;
+import ana.util.text.*;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Scanner;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -36,7 +35,7 @@ public final class Cli {
     public static final Consumer<String> CHOOSE_PRINT_DEFAULT = Cli::h2;
 
     public static final Predicate<String> VERIFY_INPUT_DEFAULT = Cli::stringIsNotEmpty;
-    public static final Consumer<String>  INPUT_PRINT_DEFAULT  = Cli::h4;
+    public static final Consumer<String> INPUT_PRINT_DEFAULT  = Cli::h4;
 
     // priv util
 
@@ -121,12 +120,12 @@ public final class Cli {
     }
 
     public static int choose(Scanner s, String prompt, String... options) {
+        StringBuilder promptBuilder = new StringBuilder(prompt);
         for (int i = 0; i < options.length; i++) {
             String str = options[i];
-            prompt += String.format(
-                "\n%d: %s", i + 1, str
-            );
+            promptBuilder.append(String.format("\n%d: %s", i + 1, str));
         }
+        prompt = promptBuilder.toString();
         int optionsLength = options.length;
 
         String choiceStr = input(
@@ -400,21 +399,20 @@ public final class Cli {
             int lineLength = getLineLength(longest);
 
             // format
-            String textf = "";
+            StringBuilder textf = new StringBuilder();
             if (longest != lineLength) {
                 for (int i = 0; i < textSplit_stripped.length; i++) {
                     String str = textSplit[i];
-                    textf += formatText(str, i, textSplit_stripped.length, lineLength) + "\n";
+                    textf.append(formatText(str, i, textSplit_stripped.length, lineLength)).append("\n");
                 }
             } else {
-                textf = Ansi.format(text, style);
+                textf = new StringBuilder(Ansi.format(text, style));
             }
 
             // build
             return String.format(
                 "\n%s%s%s",
-                topLineStr(lineLength),
-                textf,
+                topLineStr(lineLength), textf,
                 bottomLineStr(lineLength)
             );
         }
@@ -500,7 +498,21 @@ public final class Cli {
                 if (!leftLine)  left = "";
                 if (!rightLine) right = "";
 
-                int padding = Math.max(0, lineLength - left.length() - right.length());
+                int padding = lineLength - left.length() - right.length();
+
+                if (padding < 0) {
+                    padding = -padding;
+
+                    int fullLenOrig = left.length() + right.length();
+
+                    int leftSlice  = (int) Math.ceil(padding * ((double) left.length() / fullLenOrig));
+                    int rightSlice = (int) (padding * ((double) right.length() / fullLenOrig));
+
+                    left  = left.substring(0, left.length() - leftSlice);
+                    right = right.substring(rightSlice);
+
+                    padding = -padding + leftSlice + rightSlice;
+                }
 
                 line = left + " ".repeat(padding) + right;
                 line = line.isBlank() ? "" : Ansi.format(line, cornerCol) + "\n";
@@ -636,15 +648,15 @@ public final class Cli {
         }
 
         public String mdFormat(TextLine line) {
-            String str = "";
+            StringBuilder str = new StringBuilder();
 
             for (TextGroup group : line.groups) {
-                str += Ansi.format(group);
+                str.append(Ansi.format(group));
             }
 
-            str = get(line.type).format(str);
+            str = new StringBuilder(get(line.type).format(str.toString()));
 
-            return str;
+            return str.toString();
         }
 
         // get clone

@@ -4,7 +4,9 @@ package ana.io.cli;
 // dep
 
 import ana.util.color.Color;
-import ana.util.text.*;
+import ana.util.text.TextAttr;
+import ana.util.text.TextGroup;
+import ana.util.text.TextGroupStyle;
 
 import java.util.*;
 
@@ -68,12 +70,12 @@ public final class Ansi {
     // format
 
     public static String format(List<TextGroup> groups) {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         for (TextGroup group : groups) {
-            str += format(group);
+            str.append(format(group));
         }
 
-        return str;
+        return str.toString();
     }
 
     public static String format(TextGroup group) {
