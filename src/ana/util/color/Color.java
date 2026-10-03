@@ -76,6 +76,12 @@ public final class Color {
         return toHex();
     }
 
+    public java.awt.Color toAwtColor() {
+        return new java.awt.Color(
+            red, green, blue, alpha
+        );
+    }
+
     public String toHex() {
         return String.format("#%02x%02x%02x%02x", this.red, this.green, this.blue, this.alpha);
     }
