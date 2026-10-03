@@ -283,6 +283,14 @@ public final class Cli {
         );
 
         public static final TextType QUOTE = new TextType(
+            PALETTE_DEFAULT, STYLE_DEFAULT, (
+                CHARSET_DEFAULT.substring(0, 2)
+                + CHARSET_DEFAULT.charAt(3)
+                + CHARSET_DEFAULT.charAt(2)
+                + CHARSET_DEFAULT.charAt(5)
+                + CHARSET_DEFAULT.charAt(4)
+                + " "
+            ),
             /* top  / bottom */ false, false,
             /* LEFT / right  */ true,  false
         );
@@ -461,6 +469,10 @@ public final class Cli {
 
             String left = leftChar + " " + text;
 
+            if (Ansi.stripCodes(rightChar).isBlank()) {
+                return left.stripTrailing();
+            }
+
             // padding
             int paddingAmount = lineLength - Ansi.stripCodes(left).length() - 1;
             String padding = " ".repeat(paddingAmount);
@@ -514,7 +526,7 @@ public final class Cli {
                     padding = -padding + leftSlice + rightSlice;
                 }
 
-                line = left + " ".repeat(padding) + right;
+                line = (left + " ".repeat(padding) + right).stripTrailing();
                 line = line.isBlank() ? "" : Ansi.format(line, cornerCol) + "\n";
             } else {
                 line = Ansi.format(line, lineCol);
