@@ -16,7 +16,7 @@ public interface IntPoint {
 
     default IntPoint toImmut() { return clone(); }
 
-    DoubleVector toDoubleVector();
+    DoublePoint toDoubleVector();
 
     // get
 
