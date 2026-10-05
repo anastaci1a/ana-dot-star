@@ -18,8 +18,8 @@
 module ana {
     // req
 
-    requires javafx.graphics;
     requires java.desktop;
+    requires javafx.graphics;
 
     // exp
 
@@ -45,4 +45,5 @@ module ana {
     exports ana.util.math.vector.bounds;
     exports ana.util.math.vector.point;
     exports ana.util.text;
+    exports ana.util.time;
 }
